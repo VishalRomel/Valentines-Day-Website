@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Be My Valentine</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Sacramento&family=Dancing+Script&display=swap" rel="stylesheet" />
+  <style>
+    /* BASIC RESET */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Animate a dreamy shifting background gradient */
+    body {
+      font-family: "Arial", sans-serif;
+      background: linear-gradient(135deg, #ffe6ea, #ffd3e0);
+      background-size: 200% 200%;
+      animation: gradientAnimation 15s ease infinite;
+      position: relative;
+      overflow-x: hidden;
+      min-height: 100vh;
+      /* Custom heart cursor – replace URL with your own .cur file if desired */
+      cursor: url('https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Icon_heart.svg/32px-Icon_heart.svg.png'), auto;
+    }
+    @keyframes gradientAnimation {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Headings, paragraphs, and text styling */
+    h1, h2, h3, p {
+      margin: 0.5em 0;
+      text-align: center;
+    }
+    h1.title {
+      font-family: "Sacramento", cursive;
+      font-size: 3em;
+      color: #ff496c;
+      margin-bottom: 0.2em;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+    }
+
+    /* Container / Card styling */
+    .container {
+      background: #fff;
+      width: 90%;
+      max-width: 500px;
+      margin: 80px auto;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      position: relative;
+      z-index: 2;
+      animation: fadeIn 0.8s ease forwards;
+      background-clip: padding-box;
+    }
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(30px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Button styling */
+    .button-group {
+      display: flex;
+      justify-content: center;
+      gap: 1em;
+      margin-top: 20px;
+    }
+    .big-btn, .small-btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: transform 0.3s ease, background-color 0.3s ease;
+      outline: none;
+    }
+    .big-btn {
+      background-color: #ff496c;
+      color: #fff;
+    }
+    .big-btn:hover {
+      background-color: #ff6c8a;
+      transform: scale(1.05);
+    }
+    .small-btn {
+      background-color: #fff;
+      border: 2px solid #ff496c;
+      color: #ff496c;
+      font-size: 14px;
+    }
+    .small-btn:hover {
+      background-color: #ffe6ea;
+      transform: scale(1.05);
+    }
+
+    /* Options (images) styling */
+    .options {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin: 20px 0;
+    }
+    .options img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 10px;
+      cursor: pointer;
+      border: 3px solid transparent;
+      transition: transform 0.2s ease, border 0.2s;
+    }
+    .options img:hover {
+      border: 3px solid #ff496c;
+      transform: scale(1.05);
+    }
+
+    /* Place Order button styling in cart */
+    button.place-order {
+      display: block;
+      margin: 20px auto;
+      background-color: #00af54;
+      color: #fff;
+      border-radius: 10px;
+      border: none;
+      padding: 15px 25px;
+      font-size: 18px;
+      cursor: pointer;
+      transition: background-color 0.2s ease, transform 0.2s ease;
+    }
+    button.place-order:hover {
+      background-color: #36c175;
+      transform: scale(1.05);
+    }
+
+    /* GIF Container (for fun animations) */
+    .gif-container {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .gif-container img {
+      max-width: 100%;
+      border-radius: 10px;
+    }
+
+    .prize {
+      font-size: 1.2em;
+      text-align: center;
+      margin: 20px 0;
+      color: #ff496c;
+    }
+
+    /* Comedic styling for the heartbreak container */
+    #stepNo p {
+      color: #555;
+      line-height: 1.5em;
+    }
+    #stepNo .crying-loud {
+      color: #ff496c;
+      font-weight: bold;
+      font-size: 1.1em;
+    }
+
+    /* Hidden sections */
+    .hidden {
+      display: none;
+    }
+
+    /***** FLOATING HEARTS (Dynamic) *****/
+    .heart-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 1;
+    }
+    .heart {
+      position: absolute;
+      background: #ff496c;
+      transform: rotate(45deg);
+      opacity: 0.8;
+      border-radius: 50% 0 50% 0;
+      animation: floatUp 7s linear infinite;
+    }
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      background: #ff496c;
+    }
+    .heart::before {
+      left: -50%;
+      border-radius: 50% 0 0 50%;
+    }
+    .heart::after {
+      top: -50%;
+      border-radius: 50% 50% 0 0;
+    }
+    @keyframes floatUp {
+      0% { transform: translateY(0) rotate(45deg); opacity: 0.8; }
+      50% { opacity: 1; }
+      100% { transform: translateY(-110vh) rotate(45deg); opacity: 0; }
+    }
+
+    /***** GIFT BOX STYLING *****/
+    /* The container that holds the gift box pop-up */
+    .gift-container {
+      margin-top: 20px;
+    }
+    .gift-box {
+      width: 200px;
+      height: 200px;
+      margin: 0 auto;
+      background: url('https://via.placeholder.com/200?text=Gift+Box') no-repeat center center;
+      background-size: cover;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    .gift-box:hover {
+      transform: scale(1.05);
+    }
+    /* When the gift box is “opened” it shows the wallet image */
+    .gift-box.open {
+      background: url('https://via.placeholder.com/200?text=Wallet') no-repeat center center;
+      background-size: cover;
+    }
+
+    /***** RANDOM QUOTE AT THE BOTTOM *****/
+    .quote-container {
+      position: fixed;
+      bottom: 20px;
+      width: 100%;
+      text-align: center;
+      font-style: italic;
+      color: #ff496c;
+      z-index: 2;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Dynamic Floating Hearts -->
+  <div class="heart-container" id="heartContainer"></div>
+
+  <!-- STEP 1: Asking to be Valentine -->
+  <div class="container" id="step1">
+    <h1 class="title">Will You Be My Valentine?</h1>
+    <p>
+      Roses are red,<br />
+      Violets are blue,<br />
+      This site is sweet,<br />
+      And so are you!
+    </p>
+    <div class="button-group">
+      <button class="big-btn" onclick="showFlowers()">YES!</button>
+      <button class="small-btn" onclick="showNo()">nope</button>
+    </div>
+    <div class="gif-container">
+      <img src="https://media.giphy.com/media/xT8qBepJQzUjXpeWU8/giphy.gif" alt="Puppy Eyes GIF" />
+      <p>(Puppy eyes intensify... ♥)</p>
+    </div>
+  </div>
+
+  <!-- If NO was clicked -->
+  <div class="container hidden" id="stepNo">
+    <h2>Oh no, my heart!</h2>
+    <p>
+      Are you sure you want to break my heart like this? <br /><br />
+      <span class="crying-loud">[Ugly crying noises]</span><br /><br />
+      Let’s pretend you accidentally clicked “No” and give me a second chance. 
+      If not, I’ll just be here re-watching The Notebook alone. *sniff sniff*
+    </p>
+    <div class="gif-container">
+      <img src="https://media.giphy.com/media/hyAmLoIRnIJUc/giphy.gif" alt="Crying GIF" />
+    </div>
+  </div>
+
+  <!-- STEP 2: Flower Choice -->
+  <div class="container hidden" id="stepFlowers">
+    <h2>Which Flowers Make Your Heart Bloom?</h2>
+    <p>
+      Fun Fact: They say if you choose <strong>Sunflowers</strong>, you’ll <em>always</em> face the bright side of life!<br>
+      (And I’d do anything to see your bright smile.)
+    </p>
+    <div class="options">
+      <img src="https://via.placeholder.com/100x100.png?text=Roses" alt="Roses" onclick="chooseFlowers('Roses')" />
+      <img src="https://via.placeholder.com/100x100.png?text=Tulips" alt="Tulips" onclick="chooseFlowers('Tulips')" />
+      <img src="https://via.placeholder.com/100x100.png?text=Sunflowers" alt="Sunflowers" onclick="chooseFlowers('Sunflowers')" />
+    </div>
+  </div>
+
+  <!-- STEP 3: Chocolate Choice -->
+  <div class="container hidden" id="stepChocolates">
+    <h2>Pick Your Chocolate Sweetness</h2>
+    <p>
+      I'm partial to any chocolate that ends up on my face, but let's be civilized and choose below:
+    </p>
+    <div class="options">
+      <img src="https://via.placeholder.com/100x100.png?text=Dark+Choc" alt="Dark Chocolate" onclick="chooseChocolates('Dark Chocolate')" />
+      <img src="https://via.placeholder.com/100x100.png?text=Milk+Choc" alt="Milk Chocolate" onclick="chooseChocolates('Milk Chocolate')" />
+      <img src="https://via.placeholder.com/100x100.png?text=White+Choc" alt="White Chocolate" onclick="chooseChocolates('White Chocolate')" />
+    </div>
+  </div>
+
+  <!-- STEP 4: Date Activity Choice -->
+  <div class="container hidden" id="stepDate">
+    <h2>Our Perfect Date Plan</h2>
+    <p>
+      I'm excited to spend time with you doing something fun. Pick your favorite date activity:
+    </p>
+    <div class="options">
+      <img src="https://via.placeholder.com/100x100.png?text=Ice+Skating" alt="Ice Skating" onclick="chooseDate('Ice Skating')" />
+      <img src="https://via.placeholder.com/100x100.png?text=Picnic" alt="Picnic" onclick="chooseDate('Picnic')" />
+      <img src="https://via.placeholder.com/100x100.png?text=Dinner+Date" alt="Dinner Date" onclick="chooseDate('Dinner Date')" />
+    </div>
+  </div>
+
+  <!-- STEP 5: Order Summary (Cart) -->
+  <div class="container hidden" id="stepFinal">
+    <h2>Your Custom Valentine’s Combo</h2>
+    <p>
+      <strong>Flowers:</strong> <span id="chosenFlower"></span><br/>
+      <strong>Chocolate:</strong> <span id="chosenChocolate"></span><br/>
+      <strong>Date Activity:</strong> <span id="chosenDate"></span>
+    </p>
+    <!-- Clicking this button triggers a mailto: to your gmail with her order details -->
+    <button class="place-order" onclick="sendOrderAndShowGift()">Place Order</button>
+    <div class="gif-container">
+      <img src="https://media.giphy.com/media/3o7btMCltyDvSgF92E/giphy.gif" alt="Excitement GIF" />
+    </div>
+  </div>
+
+  <!-- STEP 6: Gift Box -->
+  <div class="container hidden" id="stepGift">
+    <h2>Your Special Gift</h2>
+    <p>Click the gift box to open and claim your surprise!</p>
+    <div class="gift-container">
+      <div class="gift-box" id="giftBox" onclick="openGift()"></div>
+    </div>
+  </div>
+
+  <!-- Random Quote at the bottom -->
+  <div class="quote-container">
+    <p id="quoteText"></p>
+  </div>
+
+  <script>
+    // Hide all steps
+    function hideAll() {
+      ['step1', 'stepNo', 'stepFlowers', 'stepChocolates', 'stepDate', 'stepFinal', 'stepGift'].forEach(id => {
+        document.getElementById(id).classList.add('hidden');
+      });
+    }
+
+    // Show "No" step
+    function showNo() {
+      hideAll();
+      document.getElementById('stepNo').classList.remove('hidden');
+    }
+
+    // Show "Flowers" step
+    function showFlowers() {
+      hideAll();
+      document.getElementById('stepFlowers').classList.remove('hidden');
+    }
+
+    // Global variables to store user choices
+    let chosenFlower = '';
+    let chosenChocolate = '';
+    let chosenDateActivity = '';
+
+    // Choose flower and move to chocolate step
+    function chooseFlowers(flower) {
+      chosenFlower = flower;
+      showChocolates();
+    }
+    function showChocolates() {
+      hideAll();
+      document.getElementById('stepChocolates').classList.remove('hidden');
+    }
+
+    // Choose chocolate and move to date step
+    function chooseChocolates(chocolate) {
+      chosenChocolate = chocolate;
+      showDate();
+    }
+    function showDate() {
+      hideAll();
+      document.getElementById('stepDate').classList.remove('hidden');
+    }
+
+    // Choose date activity and move to final summary
+    function chooseDate(dateChoice) {
+      chosenDateActivity = dateChoice;
+      showFinal();
+    }
+    function showFinal() {
+      hideAll();
+      document.getElementById('chosenFlower').textContent = chosenFlower;
+      document.getElementById('chosenChocolate').textContent = chosenChocolate;
+      document.getElementById('chosenDate').textContent = chosenDateActivity;
+      document.getElementById('stepFinal').classList.remove('hidden');
+    }
+
+    // When the Place Order button is clicked:
+    // This function opens the default email client (via a mailto: link)
+    // with the order details then shows the gift box section.
+    function sendOrderAndShowGift() {
+      const email = "vishalromelcharran@gmail.com";
+      const subject = encodeURIComponent("Valentine's Order");
+      const body = encodeURIComponent(
+        "Flowers: " + chosenFlower + "\n" +
+        "Chocolate: " + chosenChocolate + "\n" +
+        "Date Activity: " + chosenDateActivity
+      );
+      // Trigger the mailto: (this opens the user's email client)
+      window.location.href = "mailto:" + email + "?subject=" + subject + "&body=" + body;
+      // Then show the gift box (you might add a delay if desired)
+      hideAll();
+      document.getElementById('stepGift').classList.remove('hidden');
+    }
+
+    // When the gift box is clicked, toggle its open state to reveal the wallet image.
+    function openGift() {
+      document.getElementById('giftBox').classList.toggle('open');
+    }
+
+    /***** Dynamic Floating Hearts Generation *****/
+    document.addEventListener('DOMContentLoaded', () => {
+      const heartContainer = document.getElementById('heartContainer');
+      // Create 30 hearts with random properties
+      for (let i = 0; i < 30; i++) {
+        const heart = document.createElement('div');
+        heart.classList.add('heart');
+        heart.style.left = Math.random() * 100 + 'vw';
+        const size = 10 + Math.random() * 20;
+        heart.style.width = size + 'px';
+        heart.style.height = size + 'px';
+        heart.style.top = Math.random() * 100 + 'vh';
+        heart.style.animationDelay = Math.random() * 7 + 's';
+        heartContainer.appendChild(heart);
+      }
+      // Display a random romantic quote at the bottom of the screen
+      const quotes = [
+        "Love is composed of a single soul inhabiting two bodies. – Aristotle",
+        "Where there is love, there is life. – Mahatma Gandhi",
+        "The best thing to hold onto in life is each other. – Audrey Hepburn",
+        "You are the source of my joy, the center of my world, and the whole of my heart.",
+        "I love you, not only for what you are, but for what I am when I am with you."
+      ];
+      document.getElementById('quoteText').textContent = quotes[Math.floor(Math.random() * quotes.length)];
+    });
+  </script>
+</body>
+</html>
