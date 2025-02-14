@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>Be My Valentine</title>
-  <!-- Google Fonts -->
+  <!-- Google Fonts (No cursive fonts needed now, but you may remove these if not used elsewhere) -->
   <link rel="preconnect" href="https://fonts.gstatic.com" />
   <link href="https://fonts.googleapis.com/css2?family=Sacramento&family=Dancing+Script&display=swap" rel="stylesheet" />
   <style>
@@ -23,7 +23,7 @@
       position: relative;
       overflow-x: hidden;
       min-height: 100vh;
-      /* Custom heart cursor – replace URL with your own .cur file if desired */
+      /* Custom heart cursor */
       cursor: url('https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Icon_heart.svg/32px-Icon_heart.svg.png'), auto;
     }
     @keyframes gradientAnimation {
@@ -37,12 +37,21 @@
       margin: 0.5em 0;
       text-align: center;
     }
+    /* Front page heading now uses a straight (non-cursive) font */
     h1.title {
-      font-family: "Sacramento", cursive;
+      font-family: "Arial", sans-serif;
       font-size: 3em;
       color: #ff496c;
       margin-bottom: 0.2em;
       text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+    }
+    /* Transitional heading now uses a straight font as well */
+    h1.trans-heading {
+      font-family: "Arial", sans-serif;
+      font-size: 4em;
+      font-weight: bold;
+      color: #ff496c;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.15);
     }
 
     /* Container / Card styling */
@@ -73,71 +82,46 @@
       margin-top: 20px;
     }
     .big-btn, .small-btn {
-      padding: 10px 20px;
+      padding: 15px 25px; /* increased size */
       border: none;
       border-radius: 10px;
       cursor: pointer;
-      font-size: 16px;
+      font-size: 18px; /* increased size */
       transition: transform 0.3s ease, background-color 0.3s ease;
       outline: none;
     }
+    /* YES button is now green */
     .big-btn {
-      background-color: #ff496c;
+      background-color: green;
       color: #fff;
     }
     .big-btn:hover {
+      background-color: #2ecc71;
+      transform: scale(1.05);
+    }
+    
+    /* Option buttons for date selection */
+    .option-btn {
+      display: block;
+      width: 80%;
+      margin: 10px auto;
+      padding: 15px;
+      background-color: #ff496c;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 18px;
+      cursor: pointer;
+      transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+    .option-btn:hover {
       background-color: #ff6c8a;
       transform: scale(1.05);
     }
-    .small-btn {
-      background-color: #fff;
-      border: 2px solid #ff496c;
-      color: #ff496c;
-      font-size: 14px;
-    }
-    .small-btn:hover {
-      background-color: #ffe6ea;
-      transform: scale(1.05);
-    }
 
-    /* Options (images) styling */
-    .options {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-      margin: 20px 0;
-    }
-    .options img {
-      width: 100px;
-      height: 100px;
-      object-fit: cover;
-      border-radius: 10px;
-      cursor: pointer;
-      border: 3px solid transparent;
-      transition: transform 0.2s ease, border 0.2s;
-    }
-    .options img:hover {
-      border: 3px solid #ff496c;
-      transform: scale(1.05);
-    }
-
-    /* Place Order button styling in cart */
-    button.place-order {
-      display: block;
-      margin: 20px auto;
-      background-color: #00af54;
-      color: #fff;
-      border-radius: 10px;
-      border: none;
-      padding: 15px 25px;
-      font-size: 18px;
-      cursor: pointer;
-      transition: background-color 0.2s ease, transform 0.2s ease;
-    }
-    button.place-order:hover {
-      background-color: #36c175;
-      transform: scale(1.05);
+    /* Hidden sections */
+    .hidden {
+      display: none;
     }
 
     /* GIF Container (for fun animations) */
@@ -150,30 +134,7 @@
       border-radius: 10px;
     }
 
-    .prize {
-      font-size: 1.2em;
-      text-align: center;
-      margin: 20px 0;
-      color: #ff496c;
-    }
-
-    /* Comedic styling for the heartbreak container */
-    #stepNo p {
-      color: #555;
-      line-height: 1.5em;
-    }
-    #stepNo .crying-loud {
-      color: #ff496c;
-      font-weight: bold;
-      font-size: 1.1em;
-    }
-
-    /* Hidden sections */
-    .hidden {
-      display: none;
-    }
-
-    /***** FLOATING HEARTS (Dynamic) *****/
+    /* Floating Hearts (Dynamic) */
     .heart-container {
       position: fixed;
       top: 0;
@@ -212,39 +173,31 @@
       100% { transform: translateY(-110vh) rotate(45deg); opacity: 0; }
     }
 
-    /***** GIFT BOX STYLING *****/
-    /* The container that holds the gift box pop-up */
-    .gift-container {
-      margin-top: 20px;
+    /* Chaotic Floating NO Button */
+    @keyframes chaoticFloat {
+      0%   { top: 0%; left: 0%; }
+      10%  { top: 15%; left: 80%; }
+      20%  { top: 40%; left: 10%; }
+      30%  { top: 70%; left: 90%; }
+      40%  { top: 20%; left: 30%; }
+      50%  { top: 80%; left: 20%; }
+      60%  { top: 10%; left: 70%; }
+      70%  { top: 90%; left: 40%; }
+      80%  { top: 30%; left: 90%; }
+      90%  { top: 60%; left: 10%; }
+      100% { top: 0%; left: 0%; }
     }
-    .gift-box {
-      width: 200px;
-      height: 200px;
-      margin: 0 auto;
-      background: url('https://via.placeholder.com/200?text=Gift+Box') no-repeat center center;
-      background-size: cover;
-      cursor: pointer;
-      transition: transform 0.3s ease;
-    }
-    .gift-box:hover {
-      transform: scale(1.05);
-    }
-    /* When the gift box is “opened” it shows the wallet image */
-    .gift-box.open {
-      background: url('https://via.placeholder.com/200?text=Wallet') no-repeat center center;
-      background-size: cover;
-    }
-
-    /***** RANDOM QUOTE AT THE BOTTOM *****/
-    .quote-container {
+    .chaotic-no {
       position: fixed;
-      bottom: 20px;
-      width: 100%;
-      text-align: center;
-      font-style: italic;
-      color: #ff496c;
-      z-index: 2;
-      pointer-events: none;
+      z-index: 3;
+      padding: 15px 25px;
+      font-size: 18px;
+      background-color: red;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      animation: chaoticFloat 12s infinite linear;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -256,190 +209,121 @@
   <!-- STEP 1: Asking to be Valentine -->
   <div class="container" id="step1">
     <h1 class="title">Will You Be My Valentine?</h1>
-    <p>
-      Roses are red,<br />
-      Violets are blue,<br />
-      This site is sweet,<br />
-      And so are you!
-    </p>
+    <p>BE MY GIRLFRIEND FOR INFINITE SUPPLY OF BOBA</p>
     <div class="button-group">
-      <button class="big-btn" onclick="showFlowers()">YES!</button>
-      <button class="small-btn" onclick="showNo()">nope</button>
+      <button class="big-btn" onclick="goToStep2()">YES!</button>
     </div>
     <div class="gif-container">
-      <img src="https://media.giphy.com/media/xT8qBepJQzUjXpeWU8/giphy.gif" alt="Puppy Eyes GIF" />
-      <p>(Puppy eyes intensify... ♥)</p>
+      <!-- Replace src with your desired GIF or image -->
+      <img src="minion-forest.jpg" alt="Puppy Eyes GIF" />
+      <p>(Please please please...)</p>
     </div>
   </div>
 
-  <!-- If NO was clicked -->
-  <div class="container hidden" id="stepNo">
-    <h2>Oh no, my heart!</h2>
-    <p>
-      Are you sure you want to break my heart like this? <br /><br />
-      <span class="crying-loud">[Ugly crying noises]</span><br /><br />
-      Let’s pretend you accidentally clicked “No” and give me a second chance. 
-      If not, I’ll just be here re-watching The Notebook alone. *sniff sniff*
-    </p>
+  <!-- Floating chaotic NO button -->
+  <button class="chaotic-no" onclick="goToStepNo()">NOPE</button>
+
+  <!-- STEP 2: Transitional Page -->
+  <div class="container hidden" id="step2">
+    <h1 class="trans-heading">Dam, you want me baddd</h1>
     <div class="gif-container">
-      <img src="https://media.giphy.com/media/hyAmLoIRnIJUc/giphy.gif" alt="Crying GIF" />
+      <!-- Replace src with your desired GIF or image -->
+      <img src="cat-smile-smiling-cat.gif" alt="Awesome GIF" />
+    </div>
+    <div class="button-group">
+      <button class="big-btn" onclick="goToStep3()">NEXT</button>
     </div>
   </div>
 
-  <!-- STEP 2: Flower Choice -->
-  <div class="container hidden" id="stepFlowers">
-    <h2>Which Flowers Make Your Heart Bloom?</h2>
-    <p>
-      Fun Fact: They say if you choose <strong>Sunflowers</strong>, you’ll <em>always</em> face the bright side of life!<br>
-      (And I’d do anything to see your bright smile.)
-    </p>
-    <div class="options">
-      <img src="https://via.placeholder.com/100x100.png?text=Roses" alt="Roses" onclick="chooseFlowers('Roses')" />
-      <img src="https://via.placeholder.com/100x100.png?text=Tulips" alt="Tulips" onclick="chooseFlowers('Tulips')" />
-      <img src="https://via.placeholder.com/100x100.png?text=Sunflowers" alt="Sunflowers" onclick="chooseFlowers('Sunflowers')" />
+  <!-- STEP 3: Date Activity Choice -->
+  <div class="container hidden" id="step3">
+    <h2>Which type of date do you want today?</h2>
+    <div class="button-group">
+      <button class="option-btn" onclick="chooseDate('Dinner Date')">Dinner Date</button>
+      <button class="option-btn" onclick="chooseDate('Valentine\'s Baking Together')">Valentine's Baking Together</button>
+      <button class="option-btn" onclick="chooseDate('Ice Skating & Ice Cream')">Ice Skating & Ice Cream</button>
+      <button class="option-btn" onclick="chooseDate('Others')">Others</button>
     </div>
-  </div>
-
-  <!-- STEP 3: Chocolate Choice -->
-  <div class="container hidden" id="stepChocolates">
-    <h2>Pick Your Chocolate Sweetness</h2>
-    <p>
-      I'm partial to any chocolate that ends up on my face, but let's be civilized and choose below:
-    </p>
-    <div class="options">
-      <img src="https://via.placeholder.com/100x100.png?text=Dark+Choc" alt="Dark Chocolate" onclick="chooseChocolates('Dark Chocolate')" />
-      <img src="https://via.placeholder.com/100x100.png?text=Milk+Choc" alt="Milk Chocolate" onclick="chooseChocolates('Milk Chocolate')" />
-      <img src="https://via.placeholder.com/100x100.png?text=White+Choc" alt="White Chocolate" onclick="chooseChocolates('White Chocolate')" />
-    </div>
-  </div>
-
-  <!-- STEP 4: Date Activity Choice -->
-  <div class="container hidden" id="stepDate">
-    <h2>Our Perfect Date Plan</h2>
-    <p>
-      I'm excited to spend time with you doing something fun. Pick your favorite date activity:
-    </p>
-    <div class="options">
-      <img src="https://via.placeholder.com/100x100.png?text=Ice+Skating" alt="Ice Skating" onclick="chooseDate('Ice Skating')" />
-      <img src="https://via.placeholder.com/100x100.png?text=Picnic" alt="Picnic" onclick="chooseDate('Picnic')" />
-      <img src="https://via.placeholder.com/100x100.png?text=Dinner+Date" alt="Dinner Date" onclick="chooseDate('Dinner Date')" />
-    </div>
-  </div>
-
-  <!-- STEP 5: Order Summary (Cart) -->
-  <div class="container hidden" id="stepFinal">
-    <h2>Your Custom Valentine’s Combo</h2>
-    <p>
-      <strong>Flowers:</strong> <span id="chosenFlower"></span><br/>
-      <strong>Chocolate:</strong> <span id="chosenChocolate"></span><br/>
-      <strong>Date Activity:</strong> <span id="chosenDate"></span>
-    </p>
-    <!-- Clicking this button triggers a mailto: to your gmail with her order details -->
-    <button class="place-order" onclick="sendOrderAndShowGift()">Place Order</button>
     <div class="gif-container">
-      <img src="https://media.giphy.com/media/3o7btMCltyDvSgF92E/giphy.gif" alt="Excitement GIF" />
+      <!-- Replace src with your desired GIF or image -->
+      <img src="cat dancing.gif" alt="Date Activity GIF" />
     </div>
   </div>
 
-  <!-- STEP 6: Gift Box -->
-  <div class="container hidden" id="stepGift">
-    <h2>Your Special Gift</h2>
-    <p>Click the gift box to open and claim your surprise!</p>
-    <div class="gift-container">
-      <div class="gift-box" id="giftBox" onclick="openGift()"></div>
+  <!-- STEP 4: Gifts Question -->
+  <div class="container hidden" id="step4">
+    <h2>Do You Want Gifts?</h2>
+    <div class="button-group">
+      <button class="big-btn" onclick="finalize()">YES!</button>
+    </div>
+    <div class="gif-container">
+      <!-- Replace src with your desired GIF or image -->
+      <img src="cartoon cat happy.gif" alt="Gifts GIF" />
     </div>
   </div>
 
-  <!-- Random Quote at the bottom -->
-  <div class="quote-container">
-    <p id="quoteText"></p>
+  <!-- STEP 5: Final Confirmation -->
+  <div class="container hidden" id="step5">
+    <h1 class="title" style="font-size: 3em; font-weight: bold;">SHE SAID YESSS</h1>
+    <p>You chose: <strong id="dateChoice"></strong></p>
+    <div class="gif-container">
+      <!-- Replace src with your desired GIF or image -->
+      <img src="yay-minions.gif" alt="Final Confirmation GIF" />
+    </div>
   </div>
 
   <script>
-    // Hide all steps
-    function hideAll() {
-      ['step1', 'stepNo', 'stepFlowers', 'stepChocolates', 'stepDate', 'stepFinal', 'stepGift'].forEach(id => {
-        document.getElementById(id).classList.add('hidden');
-      });
+    let selectedDate = '';
+
+    function hideAllSteps() {
+      document.getElementById('step1').classList.add('hidden');
+      document.getElementById('step2').classList.add('hidden');
+      document.getElementById('step3').classList.add('hidden');
+      document.getElementById('step4').classList.add('hidden');
+      document.getElementById('step5').classList.add('hidden');
     }
 
-    // Show "No" step
-    function showNo() {
-      hideAll();
-      document.getElementById('stepNo').classList.remove('hidden');
+    // Action for the chaotic NO button on Step 1
+    function goToStepNo() {
+      alert("Oh, that's sad. But thank you for your honesty!");
     }
 
-    // Show "Flowers" step
-    function showFlowers() {
-      hideAll();
-      document.getElementById('stepFlowers').classList.remove('hidden');
+    // From Step 1 (front page) to Step 2 (transitional page)
+    function goToStep2() {
+      hideAllSteps();
+      document.getElementById('step2').classList.remove('hidden');
+      // Hide the chaotic NO button once we leave Step 1
+      document.querySelector('.chaotic-no').style.display = 'none';
     }
 
-    // Global variables to store user choices
-    let chosenFlower = '';
-    let chosenChocolate = '';
-    let chosenDateActivity = '';
-
-    // Choose flower and move to chocolate step
-    function chooseFlowers(flower) {
-      chosenFlower = flower;
-      showChocolates();
-    }
-    function showChocolates() {
-      hideAll();
-      document.getElementById('stepChocolates').classList.remove('hidden');
+    // From Step 2 to Step 3 (date activity selection)
+    function goToStep3() {
+      hideAllSteps();
+      document.getElementById('step3').classList.remove('hidden');
     }
 
-    // Choose chocolate and move to date step
-    function chooseChocolates(chocolate) {
-      chosenChocolate = chocolate;
-      showDate();
-    }
-    function showDate() {
-      hideAll();
-      document.getElementById('stepDate').classList.remove('hidden');
+    // When a date option is chosen, save the choice and move to Step 4 (gifts)
+    function chooseDate(dateOption) {
+      selectedDate = dateOption;
+      hideAllSteps();
+      document.getElementById('step4').classList.remove('hidden');
     }
 
-    // Choose date activity and move to final summary
-    function chooseDate(dateChoice) {
-      chosenDateActivity = dateChoice;
-      showFinal();
-    }
-    function showFinal() {
-      hideAll();
-      document.getElementById('chosenFlower').textContent = chosenFlower;
-      document.getElementById('chosenChocolate').textContent = chosenChocolate;
-      document.getElementById('chosenDate').textContent = chosenDateActivity;
-      document.getElementById('stepFinal').classList.remove('hidden');
-    }
-
-    // When the Place Order button is clicked:
-    // This function opens the default email client (via a mailto: link)
-    // with the order details then shows the gift box section.
-    function sendOrderAndShowGift() {
-      const email = "vishalromelcharran@gmail.com";
-      const subject = encodeURIComponent("Valentine's Order");
-      const body = encodeURIComponent(
-        "Flowers: " + chosenFlower + "\n" +
-        "Chocolate: " + chosenChocolate + "\n" +
-        "Date Activity: " + chosenDateActivity
-      );
-      // Trigger the mailto: (this opens the user's email client)
+    // Finalize: trigger the email system and show the final confirmation page
+    function finalize() {
+      const email = "vishalromelcharran@gmail.com"; // update if needed
+      const subject = encodeURIComponent("SHE SAID YESSS");
+      const body = encodeURIComponent("Chosen Date: " + selectedDate);
       window.location.href = "mailto:" + email + "?subject=" + subject + "&body=" + body;
-      // Then show the gift box (you might add a delay if desired)
-      hideAll();
-      document.getElementById('stepGift').classList.remove('hidden');
+      
+      hideAllSteps();
+      document.getElementById('step5').classList.remove('hidden');
+      document.getElementById('dateChoice').textContent = selectedDate;
     }
 
-    // When the gift box is clicked, toggle its open state to reveal the wallet image.
-    function openGift() {
-      document.getElementById('giftBox').classList.toggle('open');
-    }
-
-    /***** Dynamic Floating Hearts Generation *****/
+    // Dynamic Floating Hearts Generation
     document.addEventListener('DOMContentLoaded', () => {
       const heartContainer = document.getElementById('heartContainer');
-      // Create 30 hearts with random properties
       for (let i = 0; i < 30; i++) {
         const heart = document.createElement('div');
         heart.classList.add('heart');
@@ -451,15 +335,6 @@
         heart.style.animationDelay = Math.random() * 7 + 's';
         heartContainer.appendChild(heart);
       }
-      // Display a random romantic quote at the bottom of the screen
-      const quotes = [
-        "Love is composed of a single soul inhabiting two bodies. – Aristotle",
-        "Where there is love, there is life. – Mahatma Gandhi",
-        "The best thing to hold onto in life is each other. – Audrey Hepburn",
-        "You are the source of my joy, the center of my world, and the whole of my heart.",
-        "I love you, not only for what you are, but for what I am when I am with you."
-      ];
-      document.getElementById('quoteText').textContent = quotes[Math.floor(Math.random() * quotes.length)];
     });
   </script>
 </body>
